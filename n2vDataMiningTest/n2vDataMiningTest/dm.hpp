@@ -74,3 +74,48 @@ double pearson(const std::vector<T>& a, const std::vector<T>& b)
 	return (sum_xy - (sum_x*sum_y) / n) / denominator;
 }
 
+// 计算中位数
+template <typename T>
+double	getMedian(const std::vector<T>& a)
+{
+	size_t n = a.size();
+	std::sort(a.begin(), a.end());
+
+	if (1 == n % 2)
+	{
+		return a[int(((n + 1) / 2) - 1)];
+	}
+
+	T v1 = a[int(n / 2)];
+	T v2 = a[(int(n / 2) - 1)];
+
+	return  ((v1 + v2) / 2.0);
+} // end template
+
+//def getAbsoluteStandardDeviation(self, alist, median) :
+//	"""given alist and median return absolute standard deviation"""
+//	sum = 0
+//	for item in alist :
+//sum += abs(item - median)
+//return sum / len(alist)
+
+// 计算“标准差”
+template <typename T>
+double	getAbsoluteStandardDeviation(const std::vector<T>& a, T median)
+{
+	size_t n = a.size();
+
+	if (0 == n)
+	{
+		return n;
+	}
+
+	T sum = 0;
+
+	for (auto val : a)
+	{
+		sum += abs(val - median);
+	}
+
+	return  (sum / n);
+} // end template
