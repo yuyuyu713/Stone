@@ -15,12 +15,13 @@
 //#include <numeric>
 //#include <sstream>
 
+
+#define OUTPUT_RESULT
+
 #include "n2v_define.hpp"
 
 //using namespace std;
 
-
-#define OUTPUT_RESULT
 
 int main()
 {
@@ -37,5 +38,15 @@ int main()
 
 	std::cout << pearson(v1, v2) << "\n";
 	
+	// TEST n2v
+	//std::map<int, std::vector<double>> dataFrame;
+
+	//loadEmbGraph(dataFrame, "./emb/karate.emb");
+
+	//std::map<std::string, double> Dis;
+
+	//computeDistance(Dis, dataFrame);
+	// END TEST n2v
+
 	return 0;
 }

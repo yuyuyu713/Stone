@@ -219,7 +219,7 @@ void computeDistance(std::map<std::string, double> &outDis, const std::map<int, 
 				//std::cout << pair.toString() <<"\t"<< dis << endl;
 
 #ifdef OUTPUT_RESULT
-				ofs << pair.toString() << "\t" << dis << endl;
+				ofs << pair.toString() << "\t" << dis << std::endl;
 #endif // end OUTPUT_RESULT
 
 			}
