@@ -79,15 +79,16 @@ template <typename T>
 double	getMedian(const std::vector<T>& a)
 {
 	size_t n = a.size();
-	std::sort(a.begin(), a.end());
+	std::vector<T> temp = a;
+	std::sort(temp.begin(), temp.end());
 
 	if (1 == n % 2)
 	{
-		return a[int(((n + 1) / 2) - 1)];
+		return temp[int(((n + 1) / 2) - 1)];
 	}
 
-	T v1 = a[int(n / 2)];
-	T v2 = a[(int(n / 2) - 1)];
+	T v1 = temp[int(n / 2)];
+	T v2 = temp[(int(n / 2) - 1)];
 
 	return  ((v1 + v2) / 2.0);
 } // end template
@@ -99,7 +100,12 @@ double	getMedian(const std::vector<T>& a)
 //sum += abs(item - median)
 //return sum / len(alist)
 
-// 计算“标准差”
+//标准差（Standard Deviation）计算方法：
+//sqrt(((项1值 - 平均值) * (项1值 - 平均值) + (项2值 - 平均值) * (项2值 - 平均值) + ... + (项n值 - 平均值) * (项n值 - 平均值)) / n)
+// 略 ...
+
+// 计算“绝对标准差”; 绝对标准差计算方式： 
+// asd = 1 / N ( abs(项1值 - 中位数) + abs(项2值 - 中位数) + ... + abs(项n值 - 中位数)  )
 template <typename T>
 double	getAbsoluteStandardDeviation(const std::vector<T>& a, T median)
 {
@@ -119,3 +125,18 @@ double	getAbsoluteStandardDeviation(const std::vector<T>& a, T median)
 
 	return  (sum / n);
 } // end template
+
+
+// 改进后的标准分数 = （（每个值） - （中位数）） / （绝对标准差）
+// 归一化列向量
+void normalizeVector(std::vector<double> &score, double m, double asd, const std::vector<double>& a)
+{
+	score.resize(a.size());
+	for(size_t i=0; i<a.size(); ++i)
+	{
+		score[i] = (a[i] - m) / asd;
+	}
+}
+
+// normalization 0 ~ 1 之间
+// (value-min)/(max-min)

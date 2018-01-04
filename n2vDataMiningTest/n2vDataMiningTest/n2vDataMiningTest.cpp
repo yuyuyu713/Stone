@@ -22,6 +22,8 @@
 
 //using namespace std;
 
+void TEST_n2v();
+void TEST_normalizeVector();
 
 int main()
 {
@@ -35,18 +37,59 @@ int main()
 //"Bill" : {"Blues Traveler": 2.0, "Broken Bells" : 3.5, "Deadmau5" : 4.0, "Phoenix" : 2.0, "Slightly Stoopid" : 3.5, "Vampire Weekend" : 3.0},
 
 	//std::cout << euclidean_distance(v1, v2) << "\n";
+	//std::cout << pearson(v1, v2) << "\n";
 
-	std::cout << pearson(v1, v2) << "\n";
-	
-	// TEST n2v
-	//std::map<int, std::vector<double>> dataFrame;
+	// TEST_n2v();
 
-	//loadEmbGraph(dataFrame, "./emb/karate.emb");
-
-	//std::map<std::string, double> Dis;
-
-	//computeDistance(Dis, dataFrame);
-	// END TEST n2v
+	TEST_normalizeVector();
 
 	return 0;
+}
+
+void TEST_n2v()
+{
+	// TEST n2v
+	std::map<int, std::vector<double>> dataFrame;
+	loadEmbGraph(dataFrame, "./emb/karate.emb");
+	std::map<std::string, double> Dis;
+	computeDistance(Dis, dataFrame);
+	// END TEST n2v
+}
+
+
+void TEST_normalizeVector()
+{
+	std::vector<double> list1 = { 54, 72, 78, 49, 65, 63, 75, 67, 54, 76, 68,
+		61, 58, 70, 70, 70, 63, 65, 66, 61 };
+
+	std::vector<double> list2 = { 66, 162, 204, 90, 99, 106, 175, 123, 68,
+		200, 163, 95, 77, 108, 155, 155, 108, 106, 97, 76 };
+
+	double m1 = getMedian(list1);
+	double m2 = getMedian(list2);
+
+	double asd1 = getAbsoluteStandardDeviation(list1, m1);
+	double asd2 = getAbsoluteStandardDeviation(list2, m2);
+
+	std::vector<double> score1;
+	std::vector<double> score2;
+
+	normalizeVector(score1, m1, asd1, list1);
+	normalizeVector(score2, m2, asd2, list2);
+
+	std::cout << "Median:"<< m1 << ",ASD:"<< asd1 <<"\n"; // 65.5, 5.95
+	for (size_t i = 0; i<score1.size(); ++i)
+	{
+		//std::cout << "["<< score1[i] << ","<< score2[i] << "]"<<"\n";
+		std::cout << score1[i] << "\n";
+	}
+
+	std::cout << "Median:" << m2 << ",ASD:" << asd2 << "\n"; // 107, 33.65
+	for (size_t i = 0; i<score2.size(); ++i)
+	{
+		//std::cout << "[" << score1[i] << "," << score2[i] << "]" << "\n";
+		std::cout << score2[i] << "\n";
+	}
+
+	std::cout << "\n";
 }
