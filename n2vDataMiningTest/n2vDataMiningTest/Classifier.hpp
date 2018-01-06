@@ -252,7 +252,6 @@ void Classifier::computeMedianDeviation(string strColumn)
 	// strColumn: attr1,attr3,attr3,attr4,attr5
 	size_t size = m_vecTupleData.size();
 	vector<float> columnValue;
-	//columnValue.resize(size);
 
 	for (size_t i = 0; i < size; ++i)
 	{
@@ -269,24 +268,23 @@ void Classifier::computeMedianDeviation(string strColumn)
 	
 	m_mapMedianDeviation[strColumn] = make_pair(median, asd);
 
-	// print("Median: %f   ASD = %f" % (median, asd))
-
-	cout << strColumn <<"\tMedian: " << median << "\tASD: " << (asd) << endl;
+	//cout << strColumn <<"\tMedian: " << median << "\tASD: " << (asd) << endl;
 }
 
 void Classifier::training()
 {
-	// strColumn: attr1,attr3,attr3,attr4,attr5
+	// S_ColumnNames: attr1,attr3,attr3,attr4,attr5
 
 	//1. 计算中位数和绝对标准差
+	// TODO:
 	int size = sizeof(S_ColumnNames) - sizeof(string);
-	for (size_t i = 0; i < 4/*sizeof(S_ColumnNames) - sizeof(string)*/; ++i)
+	for (size_t i = 0; i < 4; ++i)
 	{
 		string strColumnName = S_ColumnNames[i];
 		computeMedianDeviation(strColumnName);
 	}
 
-	// 2. 为每个training-data计算标准分数
+	//2. 为每个training-data计算标准分数
 	size = m_vecTupleData.size();
 	for (size_t i = 0; i < size; ++i)
 	{
@@ -296,7 +294,6 @@ void Classifier::training()
 }
 
 // 计算单个值的标准分数(使用测试数据生成的中位数和绝对标准差)
-// 测试或预测时使用
 void Classifier::normalizeTupleData(TupleData &tupleData)
 {
 	TupleData &data = tupleData;
@@ -355,7 +352,8 @@ TupleData Classifier::nearestNeighbor(TupleData data)
 	for (size_t i = 0; i < size; ++i)
 	{
 		TupleData &data2 = m_vecTupleData[i];
-		float dataDis = manhattanDistance(data, data2);
+		//float dataDis = manhattanDistance(data, data2);
+		float dataDis = euclideanDistance(data, data2);
 
 		if (dataDis < minDis)
 		{
@@ -365,12 +363,10 @@ TupleData Classifier::nearestNeighbor(TupleData data)
 	}
 
 	//cout << "minDis: " << (minDis) << endl;
-
 	//cout << "nearestNeighbor: " << nearestIndex << "("<< (minDis) << "), [ " << m_vecTupleData[nearestIndex].toString() << "]" << endl;
 
 	return m_vecTupleData[nearestIndex];
 }
-
 
 string Classifier::classify(TupleData data)
 {
