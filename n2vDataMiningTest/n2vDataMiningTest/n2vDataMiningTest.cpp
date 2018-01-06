@@ -19,11 +19,13 @@
 #define OUTPUT_RESULT
 
 #include "n2v_define.hpp"
+#include "Classifier.hpp"
 
 //using namespace std;
 
 void TEST_n2v();
 void TEST_normalizeVector();
+void TEST_Classifier();
 
 int main()
 {
@@ -41,7 +43,9 @@ int main()
 
 	// TEST_n2v();
 
-	TEST_normalizeVector();
+	//TEST_normalizeVector();
+
+	TEST_Classifier();
 
 	return 0;
 }
@@ -56,6 +60,7 @@ void TEST_n2v()
 	// END TEST n2v
 }
 
+void TEST_Classifier();
 
 void TEST_normalizeVector()
 {
@@ -92,4 +97,23 @@ void TEST_normalizeVector()
 	}
 
 	std::cout << "\n";
+}
+
+
+void TEST_Classifier()
+{
+	char fname[255] = "./data/irisTrainingSet.data";
+	char fname2[255] = "./data/irisTestSet.data";
+
+	TupleTitle title;
+	vector<TupleData> vecTupleData;
+
+	//cout << "irisTrainingSet Count: " << readDataFile(title, vecTupleData, fname, true) << endl;
+	cout << "irisTestSet Count: " << readDataFile(title, vecTupleData, fname2, false) << endl;
+
+	Classifier fier(fname);
+	fier.training();
+	float correct = fier.testClassify(vecTupleData);
+
+	cout << correct << "% correct."<< endl;
 }

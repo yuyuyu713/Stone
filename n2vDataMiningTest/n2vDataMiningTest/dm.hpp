@@ -4,6 +4,7 @@
 //#include <fstream>
 //#include <string>
 //#include <iterator>
+#include <limits.h>
 #include <algorithm>
 #include <vector>
 #include <map>
@@ -140,3 +141,30 @@ void normalizeVector(std::vector<double> &score, double m, double asd, const std
 
 // normalization 0 ~ 1 Ö®¼ä
 // (value-min)/(max-min)
+template <typename T>
+void normalize(std::vector<T>& a)
+{
+	int size = a.size();
+	if (0 == size)
+	{
+		return;
+	}
+
+	T max = a[0];
+	T min = a[0];
+
+	for (int i = 0; i< size; ++i)
+	{
+		max = std::max(a[i], max);
+		min = std::min(a[i], min);
+	}
+
+	if (max != min)
+	{
+		T off = max - min;
+		for (int i = 0; i<size; ++i)
+		{
+			a[i] = T( (a[i] - min) / off );
+		}
+	}
+}

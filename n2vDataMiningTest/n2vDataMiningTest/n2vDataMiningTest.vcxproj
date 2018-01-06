@@ -146,6 +146,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Classifier.hpp" />
     <ClInclude Include="dm.hpp" />
     <ClInclude Include="n2v_define.hpp" />
     <ClInclude Include="stdafx.h" />
