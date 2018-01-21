@@ -99,20 +99,26 @@ void TEST_normalizeVector()
 	std::cout << "\n";
 }
 
-
+// http://blog.csdn.net/chenchunyue11/article/details/51494158
 void TEST_Classifier()
 {
 	char fname[255] = "./data/irisTrainingSet.data";
 	char fname2[255] = "./data/irisTestSet.data";
 
-	TupleTitle title;
-	vector<TupleData> vecTupleData;
+	_TupleTitle title;
+	title.attrType.push_back(1);
+	title.attrType.push_back(1);
+	title.attrType.push_back(1);
+	title.attrType.push_back(1);
+	title.attrType.push_back(0);
+
+	vector<_TupleData> vecTupleData;
 
 	//cout << "irisTrainingSet Count: " << readDataFile(title, vecTupleData, fname, true) << endl;
 	cout << "irisTestSet Count: " << readDataFile(title, vecTupleData, fname2, false) << endl;
 
-	Classifier fier(fname);
-	fier.training();
+	Classifier fier(title, fname);
+	fier._training();
 	float correct = fier.testClassify(vecTupleData);
 
 	cout << correct << "% correct."<< endl;
