@@ -276,7 +276,7 @@ public:
 
 	// map<column, pair<median,deviation>  
 	// column mean's property.
-	map<string, pair<float, float> > m_mapMedianDeviation;
+	map<string, pair<float, float> > m_mapMedianDeviation; // 保存每个特征值（每列）的中位数及绝对标准差
 };
 
 Classifier::Classifier()
