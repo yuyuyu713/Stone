@@ -112,10 +112,17 @@ void TEST_Classifier()
 	title.attrType.push_back(1);
 	title.attrType.push_back(0);
 
+	title.attrName.push_back("num1");
+	title.attrName.push_back("num2");
+	title.attrName.push_back("num3");
+	title.attrName.push_back("num4");
+	title.attrName.push_back("class");
+
 	vector<_TupleData> vecTupleData;
 
 	//cout << "irisTrainingSet Count: " << readDataFile(title, vecTupleData, fname, true) << endl;
 	cout << "irisTestSet Count: " << readDataFile(title, vecTupleData, fname2, false) << endl;
+
 
 	Classifier fier(title, fname);
 	fier._training();

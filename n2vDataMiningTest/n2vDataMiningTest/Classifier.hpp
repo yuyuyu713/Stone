@@ -30,7 +30,7 @@ struct _TupleTitle
 	}
 };
 
-////构建属性结构，将数据转换为所需要的数据以及字符串  
+////构建属性结构，将数据转换为所需要的数据以及字符串
 struct _TupleData
 {
 	long id_l;
@@ -38,10 +38,13 @@ struct _TupleData
 	vector<float> value_f;
 	vector<string> value_str;
 
-	_TupleData()
+	_TupleData(size_t fSize, size_t strSize)
 		: id_l(-1)
 		, dis(0)
-	{}
+	{
+		value_f.resize(fSize);
+		value_str.resize(strSize);
+	}
 
 	bool isExsist(string strColumnName) const
 	{
@@ -90,7 +93,23 @@ struct _TupleData
 				if (i < value_f.size())
 				{
 					value_f[i] = value;
+					return;
 				}
+			}
+		}
+	}
+
+	void setColumnValue(string strColumnName, string value, const _TupleTitle &title)
+	{
+		size_t sz = title.attrName.size();
+
+		for (size_t i = 0; i<sz; ++i)
+		{
+			if (0 == strColumnName.compare(title.attrName[i]))
+			{
+				assert(i >= value_f.size());
+				value_str[i - value_f.size()] = value;
+				return;
 			}
 		}
 	}
@@ -186,7 +205,7 @@ int readDataFile(_TupleTitle &outTitle, vector<_TupleData> &outVecTupleData, con
 		for (size_t i = 0; i < title.attrType.size(); ++i)
 		{
 			strTitle >> str;
-			title.attrName.push_back(str);
+			title.attrName[i] = str;
 		}
 
 		++lineCount;
@@ -200,7 +219,7 @@ int readDataFile(_TupleTitle &outTitle, vector<_TupleData> &outVecTupleData, con
 	//从文件中读取数据  
 	while (infile.getline(line, sizeof(line)))
 	{
-		_TupleData tupleData;
+		_TupleData tupleData(4,1);
 		std::stringstream rawData(line);
 		for (size_t i = 0; i < title.attrType.size(); ++i)
 		{
@@ -208,12 +227,15 @@ int readDataFile(_TupleTitle &outTitle, vector<_TupleData> &outVecTupleData, con
 			if (1 == title.attrType[i])
 			{
 				rawData >> value;
-				tupleData.value_f.push_back(value);
+				//tupleData.value_f.push_back(value);
+				tupleData.setColumnValue(title.attrName[i], value, title);
+
 			}
 			else if(0 == title.attrType[i])// string
 			{
 				rawData >> str;
-				tupleData.value_str.push_back(str);
+				//tupleData.value_str.push_back(str);
+				tupleData.setColumnValue(title.attrName[i], str, title);
 			}
 			else
 			{
